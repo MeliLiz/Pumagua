@@ -84,6 +84,15 @@ def index(request):
         mensaje = 'Mostrando todos los bebederos disponibles en CU.'
         for coordenada in datosBebederos:
             datos = (coordenada.latitud, coordenada.longitud)
+            if coordenada.estado == '0':
+                color = 'red'
+                icon = 'glyphicon glyphicon-remove'
+            elif coordenada.estado == '2':
+                color = 'orange'
+                icon = 'glyphicon glyphicon-wrench'
+            else:
+                color = 'blue'
+                icon = 'glyphicon glyphicon-tint'
             folium.Marker(datos,
                 tooltip=coordenada.nombre,
                 popup='<h5><b>'+coordenada.nombre+'</b></h5>\n'
@@ -91,7 +100,7 @@ def index(request):
                           +'<img src="'
                           +imagenes_bebederos(coordenada.id_bebedero)
                           +'" width="150px" style="border-radius: 8px">',
-                icon=folium.Icon(icon='glyphicon glyphicon-tint')).add_to(m)
+                icon=folium.Icon(icon= icon, color = color)).add_to(m)
 
     f = folium.Figure(height=500)
     f.add_child(m)
