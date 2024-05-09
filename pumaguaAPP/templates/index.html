@@ -1,4 +1,6 @@
 {% extends "base.html"%}
+{% load static %}
+{% block extra-css %}<link href="{% static 'css/reporte.css' %}" rel="stylesheet" />{% endblock %}
 {% block title %}
   Bebederos en CU
 {% endblock %}
@@ -16,12 +18,13 @@
     </div>
   </header>
 
-
+  
+  <a href="/reportes">  <button type="button" class="btn button-18 report-button">Reportar Bebedero</button> </a>
   <br>
   <div class="feedback">
     {{ feedback_resultados }}
   </div>
-
+  
   <div class="mapa">
     {{ map|safe }}
   </div>
