@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import folium
-from pumaguaAPP.models import bebederos
+from pumaguaAPP.models import bebederos, Reporte
 from django.db.models import Q
 from folium.plugins import LocateControl
 import json
@@ -110,13 +110,31 @@ def index(request):
     return render(request, "index.html", contexto)
 
 def imagenes_bebederos(id_bebedero):
-    ruta = 'pumaguaAPP/'
-    imagen = str(id_bebedero) + '.jpg'
+    ruta = "static/pumaguaAPP/"
+    imagen = str(id_bebedero) + ".jpg"
     if os.path.exists(os.getcwd() + ruta + imagen):
         ruta = ruta + imagen
     else:
-        ruta = ruta + 'default.png'
+        ruta = ruta + "default.png"
     return ruta
 
 def informes(request):
     return render(request, "informes.html")
+
+def reportes(request):
+    bebederos_list = bebederos.objects.values_list('id_bebedero', 'nombre')
+    print(bebederos_list)
+    contexto = {'bebederos': bebederos_list}
+
+    if request.method == 'POST':
+        print(request.POST)
+        nombre = request. POST.get('nombre')
+        email = request. POST.get('email')
+        id_bebedero = request. POST .get('bebedero')
+        bebedero = bebederos.objects.get(pk=id_bebedero)
+        reporte = Reporte(nombre=nombre, email=email, bebedero=bebedero)
+        reporte.save()
+        return redirect('/')
+
+
+    return render(request, "reportes.html",contexto)
