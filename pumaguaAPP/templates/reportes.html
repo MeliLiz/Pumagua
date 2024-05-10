@@ -11,21 +11,40 @@
         <br>
         <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Nombre</label>
-        <input type="nombre" class="form-control" name="nombre">
+        <input type="nombre" class="form-control" name="nombre" required>
         </div>
         <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Email</label>
-        <input type="email" class="form-control" name="email">
+        <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputDescripcion" class="form-label">Descripcion</label>
+            <input type="text" class="form-control" name="descripcion" required>
         </div>
         <div class="mb-3">
         <label for="disabledSelect" class="form-label">Selecciona el bebedero</label>
-        <select id="disabledSelect" class="form-select" name="bebedero">
+        <select id="disabledSelect" class="form-select" name="bebedero" required>
         {% for bebedero in bebederos%}
         <option value="{{ bebedero.0 }}">{{ bebedero.1 }}</option>
         {% endfor %}
         </select>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar reporte</button>
+        <div class="mb-3">
+            <label for="exampleInputCampoExtra" class="form-label">Comentarios extra</label>
+            <input type="text" class="form-control" name="campo_extra">
+            </div>
+        <button type="submit" class="btn btn-primary" onclick="reporteExitoso()">Enviar reporte</button>
     </form>
+    <script> 
+        function reporteExitoso(){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Tu reporte ha sido enviado con éxito",
+                showConfirmButton: false,
+                timer: 1500
+                });
+        }
+      </script>
 
 {%endblock%}
