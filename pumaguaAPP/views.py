@@ -4,6 +4,7 @@ from pumaguaAPP.models import bebederos, Reporte
 from django.db.models import Q
 from folium.plugins import LocateControl
 import json
+from time import sleep
 import os
 
 # Create your views here.
@@ -121,6 +122,11 @@ def imagenes_bebederos(id_bebedero):
 def informes(request):
     return render(request, "informes.html")
 
+
+def redirect_after_delay(url, delay):
+    sleep(delay)
+    return redirect(url)
+
 def reportes(request):
     bebederos_list = bebederos.objects.values_list('id_bebedero', 'nombre')
     print(bebederos_list)
@@ -130,11 +136,13 @@ def reportes(request):
         print(request.POST)
         nombre = request. POST.get('nombre')
         email = request. POST.get('email')
-        id_bebedero = request. POST .get('bebedero')
+        descripcion = request. POST.get('descripcion')
+        campo_extra = request. POST.get('campo_extra')
+        id_bebedero = request. POST.get('bebedero')
         bebedero = bebederos.objects.get(pk=id_bebedero)
-        reporte = Reporte(nombre=nombre, email=email, bebedero=bebedero)
+        reporte = Reporte(nombre=nombre, email=email, bebedero=bebedero, descripcion=descripcion, dato_extra=campo_extra)
         reporte.save()
-        return redirect('/')
+        return redirect_after_delay('/', 3)
 
 
     return render(request, "reportes.html",contexto)
